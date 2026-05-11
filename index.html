@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fleurs by Liza — باقات الورد الفاخرة</title>
+<meta property="og:title" content="Fleurs by Liza">
+<meta property="og:description" content="ورود طازجة مستوردة — توصيل Anderson Express لكل الجزائر">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Tajawal:wght@300;400;500;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#e91e8c;--pink-l:#f48fb1;--pink-pale:#fce4f3;--black:#111;--gray:#f7f7f7;--text:#222;--muted:#888;--green:#27ae60;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Tajawal',sans-serif;background:#fff;color:var(--text);overflow-x:hidden;cursor:none;}
+#cur{width:12px;height:12px;background:var(--pink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .18s,height .18s;mix-blend-mode:multiply;}
+#cur.big{width:30px;height:30px;opacity:.5;}
+/* LOADING */
+#loading{position:fixed;inset:0;background:#fff;z-index:2000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;transition:opacity .5s;}
+#loading.hide{opacity:0;pointer-events:none;}
+.load-logo{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.8rem;color:var(--black);}
+.load-logo span{color:var(--pink);}
+.ld{display:flex;gap:.4rem;}
+.ld span{width:8px;height:8px;background:var(--pink);border-radius:50%;animation:lp 1.2s ease-in-out infinite;}
+.ld span:nth-child(2){animation-delay:.2s;}.ld span:nth-child(3){animation-delay:.4s;}
+/* PROMO BAR */
+#pbar{background:linear-gradient(90deg,var(--pink),#c2185b);color:#fff;text-align:center;padding:.5rem 1rem;font-size:.8rem;display:none;}
+#pbar.on{display:block;}
+#pbar strong{background:rgba(255,255,255,.2);border-radius:2rem;padding:.08rem .6rem;margin-left:.3rem;}
+/* POPUP */
+#pop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:900;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+#pop.on{display:flex;}
+.pop-box{background:#fff;border-radius:1.8rem;width:min(430px,94vw);overflow:hidden;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both;position:relative;}
+.pop-img{height:160px;background:linear-gradient(135deg,var(--pink),#c2185b);display:flex;align-items:center;justify-content:center;font-size:6.5rem;}
+.pop-body{padding:1.4rem;text-align:center;}
+.pop-x{position:absolute;top:.6rem;left:.6rem;background:rgba(255,255,255,.25);border:none;color:#fff;width:26px;height:26px;border-radius:50%;font-size:.8rem;cursor:pointer;}
+.pop-tag{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pink);margin-bottom:.3rem;}
+.pop-title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.2rem;color:var(--black);margin-bottom:.3rem;}
+.pop-desc{font-size:.82rem;color:var(--muted);margin-bottom:.8rem;line-height:1.6;}
+.pop-code{background:var(--pink-pale);border:2px dashed var(--pink-l);border-radius:.7rem;padding:.45rem .9rem;font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.15rem;color:var(--pink);letter-spacing:.12em;display:inline-block;margin-bottom:.9rem;cursor:pointer;}
+.pop-btns{display:flex;gap:.6rem;justify-content:center;}
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:500;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(233,30,140,.1);display:flex;align-items:center;justify-content:space-between;padding:.8rem 2.5rem;}
+.logo-a{text-decoration:none;display:flex;flex-direction:column;line-height:1;}
+.logo-m{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.25rem;color:var(--black);}
+.logo-m span{color:var(--pink);}
+.logo-s{font-family:'Montserrat',sans-serif;font-weight:300;font-size:.48rem;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;margin-top:2px;}
+.nav-links{display:flex;gap:1.6rem;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--text);font-size:.8rem;font-weight:500;position:relative;padding-bottom:3px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;right:0;width:0;height:1.5px;background:var(--pink);transition:width .3s;}
+.nav-links a:hover::after{width:100%;}
+.nav-r{display:flex;gap:.6rem;align-items:center;}
+.nav-ig{text-decoration:none;font-size:.75rem;font-weight:600;color:var(--pink);cursor:none;transition:opacity .2s;}
+.nav-ig:hover{opacity:.7;}
+.btn-trk{background:var(--gray);color:var(--text);border:none;padding:.45rem .95rem;border-radius:2rem;font-family:'Tajawal',sans-serif;font-size:.73rem;cursor:none;transition:all .2s;}
+.btn-trk:hover{background:var(--pink-pale);color:var(--pink);}
+.btn-cart{background:var(--pink);color:#fff;border:none;padding:.45rem 1.05rem;border-radius:2rem;font-family:'Tajawal',sans-serif;font-size:.73rem;cursor:none;transition:all .2s;position:relative;}
+.btn-cart:hover{background:var(--black);}
+.cbadge{position:absolute;top:-6px;left:-6px;background:var(--black);color:#fff;width:17px;height:17px;border-radius:50%;font-size:.58rem;display:flex;align-items:center;justify-content:center;}
+/* HERO */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:5.5rem 2.5rem 3rem;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 40%,rgba(233,30,140,.06),transparent 60%);pointer-events:none;}
+.hero-tag{display:inline-flex;align-items:center;gap:.45rem;font-size:.67rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pink);margin-bottom:1.1rem;animation:fadeUp .7s ease both;}
+.hero-tag::before,.hero-tag::after{content:'';display:block;width:18px;height:1px;background:var(--pink);}
+.hero-h1{font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(2.2rem,4vw,3.8rem);line-height:1.1;color:var(--black);margin-bottom:.4rem;animation:fadeUp .7s .1s ease both;}
+.hero-h1 em{color:var(--pink);}
+.hero-it{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1rem,1.8vw,1.5rem);color:var(--muted);margin-bottom:1.1rem;animation:fadeUp .7s .2s ease both;}
+.hero-p{font-size:.87rem;color:var(--muted);line-height:1.85;max-width:400px;margin-bottom:1.7rem;font-weight:300;animation:fadeUp .7s .3s ease both;}
+.hero-btns{display:flex;gap:.8rem;flex-wrap:wrap;animation:fadeUp .7s .4s ease both;}
+.btn-pink{background:var(--pink);color:#fff;padding:.72rem 1.7rem;border:none;border-radius:3rem;font-family:'Tajawal',sans-serif;font-size:.87rem;cursor:none;transition:all .3s;box-shadow:0 6px 20px rgba(233,30,140,.25);font-weight:500;}
+.btn-pink:hover{background:var(--black);transform:translateY(-2px);}
+.btn-ol{background:transparent;color:var(--black);padding:.72rem 1.5rem;border:1.5px solid rgba(0,0,0,.18);border-radius:3rem;font-family:'Tajawal',sans-serif;font-size:.87rem;cursor:none;transition:all .3s;}
+.btn-ol:hover{border-color:var(--pink);color:var(--pink);}
+.hero-trust{display:flex;gap:1.7rem;margin-top:1.9rem;animation:fadeUp .7s .5s ease both;}
+.trust-n{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.35rem;color:var(--black);line-height:1;}
+.trust-n span{color:var(--pink);}
+.trust-l{font-size:.67rem;color:var(--muted);margin-top:2px;}
+.hero-r{display:flex;justify-content:center;align-items:center;position:relative;}
+.bwrap{position:relative;width:min(360px,38vw);height:min(360px,38vw);}
+.bcircle{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#fce4f3,#f8bbd0,#f48fb1,#e91e8c);display:flex;align-items:center;justify-content:center;font-size:clamp(5rem,10vw,10rem);box-shadow:0 24px 80px rgba(233,30,140,.2);animation:float 5s ease-in-out infinite;}
+.ring1{position:absolute;inset:-14px;border-radius:50%;border:1px dashed rgba(233,30,140,.2);animation:spin 22s linear infinite;}
+.ring2{position:absolute;inset:-28px;border-radius:50%;border:1px dashed rgba(233,30,140,.1);animation:spin 35s linear infinite reverse;}
+.fbadge{position:absolute;background:#fff;border-radius:1rem;padding:.7rem .95rem;box-shadow:0 6px 24px rgba(0,0,0,.08);display:flex;align-items:center;gap:.5rem;font-size:.73rem;font-weight:500;color:var(--black);}
+.fbadge small{display:block;font-size:.62rem;color:var(--muted);font-weight:400;}
+.fbadge.b1{bottom:8%;right:-4%;}.fbadge.b2{top:12%;left:-6%;}
+/* MARQUEE */
+.mq-wrap{background:var(--black);overflow:hidden;padding:.65rem 0;}
+.mq{display:flex;gap:2.5rem;white-space:nowrap;animation:marquee 22s linear infinite;width:max-content;}
+.mq span{font-family:'Montserrat',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.38);}
+.mq span.p{color:var(--pink);}
+/* SECTION */
+.sw{padding:4rem 2.5rem;}
+.sh{text-align:center;margin-bottom:2.3rem;}
+.stag{display:inline-block;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pink);margin-bottom:.4rem;}
+.stitle{font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(1.45rem,2.6vw,2.2rem);color:var(--black);}
+.stitle em{font-family:'Playfair Display',serif;font-style:italic;color:var(--pink);font-weight:400;}
+.sdiv{display:flex;align-items:center;justify-content:center;gap:.55rem;margin-top:.5rem;}
+.sdiv::before,.sdiv::after{content:'';display:block;height:1px;width:28px;background:linear-gradient(to right,transparent,var(--pink-l));}
+.sdiv::after{background:linear-gradient(to left,transparent,var(--pink-l));}
+/* PRODUCTS */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:1.4rem;}
+.pcard{background:#fff;border-radius:1.3rem;overflow:hidden;border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 14px rgba(0,0,0,.04);transition:transform .35s,box-shadow .35s;cursor:none;}
+.pcard:hover{transform:translateY(-7px);box-shadow:0 14px 44px rgba(233,30,140,.1);}
+.pcard-img{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.pcard-img img{width:100%;height:100%;object-fit:cover;}
+.pcard-img .emoji-fb{font-size:5rem;}
+.pbadge{position:absolute;top:.75rem;right:.75rem;padding:.18rem .62rem;border-radius:2rem;font-size:.6rem;letter-spacing:.06em;font-weight:700;text-transform:uppercase;}
+.pb-pink{background:var(--pink);color:#fff;}.pb-black{background:var(--black);color:#fff;}
+.pcard-body{padding:.95rem 1.05rem;}
+.pcard-name{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.9rem;color:var(--black);margin-bottom:.2rem;}
+.pcard-desc{font-size:.75rem;color:var(--muted);line-height:1.5;margin-bottom:.65rem;}
+.cdots{display:flex;gap:.32rem;margin-bottom:.65rem;}
+.cdot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(0,0,0,.08);}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;}
+.pcard-price{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;color:var(--pink);}
+.pcard-price del{font-size:.7rem;color:#ccc;font-weight:400;margin-left:.2rem;}
+.view-btn{background:var(--pink);color:#fff;border:none;padding:.48rem 1.05rem;border-radius:2rem;font-family:'Tajawal',sans-serif;font-size:.75rem;cursor:none;transition:all .3s;font-weight:500;}
+.view-btn:hover{background:var(--black);}
+/* SKELETON */
+.skel{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:skel 1.4s infinite;border-radius:.8rem;}
+/* TRACK */
+#track{padding:4rem 2.5rem;background:var(--gray);}
+.track-box{max-width:560px;margin:0 auto;text-align:center;}
+.track-row{display:flex;gap:.55rem;margin-top:1.3rem;}
+.track-inp{flex:1;padding:.72rem 1.1rem;border:1.5px solid rgba(0,0,0,.1);border-radius:3rem;font-family:'Tajawal',sans-serif;font-size:.87rem;outline:none;transition:border-color .25s;}
+.track-inp:focus{border-color:var(--pink);}
+.track-btn{background:var(--pink);color:#fff;border:none;padding:.72rem 1.35rem;border-radius:3rem;font-family:'Tajawal',sans-serif;font-size:.84rem;cursor:none;white-space:nowrap;transition:background .3s;}
+.track-btn:hover{background:var(--black);}
+#track-res{margin-top:1rem;display:none;}
+.tcard{background:#fff;border-radius:1.1rem;padding:1.25rem;border:1px solid rgba(0,0,0,.07);text-align:right;}
+.tsteps{display:flex;justify-content:space-between;position:relative;margin-top:.8rem;}
+.tsteps::before{content:'';position:absolute;top:13px;right:0;left:0;height:2px;background:rgba(0,0,0,.07);}
+.tstep{display:flex;flex-direction:column;align-items:center;gap:.22rem;position:relative;z-index:1;}
+.ts-dot{width:26px;height:26px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:.72rem;border:2px solid #eee;}
+.ts-dot.done{background:var(--green);border-color:var(--green);color:#fff;}
+.ts-dot.active{background:var(--pink);border-color:var(--pink);color:#fff;box-shadow:0 0 0 4px rgba(233,30,140,.15);}
+.ts-lbl{font-size:.6rem;color:var(--muted);}
+/* DELIVERY */
+#delivery{padding:4rem 2.5rem;background:var(--black);color:#fff;position:relative;overflow:hidden;}
+#delivery::before{content:'';position:absolute;top:-30%;left:-10%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(233,30,140,.12),transparent 70%);pointer-events:none;}
+.dcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.9rem;margin-bottom:2rem;position:relative;z-index:1;}
+.dcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:1rem;padding:1.1rem;text-align:center;transition:background .3s,transform .3s;}
+.dcard:hover{background:rgba(233,30,140,.1);transform:translateY(-4px);}
+.dcard-ico{font-size:1.7rem;margin-bottom:.4rem;display:block;}
+.dcard-title{font-weight:600;font-size:.82rem;margin-bottom:.18rem;}
+.dcard-desc{font-size:.7rem;color:rgba(255,255,255,.38);line-height:1.5;}
+.dcard-price{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.1rem;color:var(--pink);margin-top:.35rem;display:block;}
+.wbox{position:relative;z-index:1;}
+.w-title{text-align:center;font-family:'Montserrat',sans-serif;font-size:.73rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.85rem;}
+.w-sr{display:flex;justify-content:center;margin-bottom:.85rem;}
+.w-si{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:2rem;padding:.55rem 1.2rem;color:#fff;font-family:'Tajawal',sans-serif;font-size:.86rem;width:min(320px,90%);outline:none;transition:border-color .3s;}
+.w-si::placeholder{color:rgba(255,255,255,.3);}
+.w-si:focus{border-color:var(--pink);}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem;max-height:300px;overflow-y:auto;}
+.wgrid::-webkit-scrollbar{width:3px;}.wgrid::-webkit-scrollbar-thumb{background:var(--pink);border-radius:2px;}
+.wpill{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:.65rem;padding:.45rem .8rem;font-size:.72rem;color:rgba(255,255,255,.6);transition:all .22s;cursor:none;display:flex;align-items:center;gap:.38rem;}
+.wpill:hover{background:rgba(233,30,140,.18);border-color:var(--pink);color:#fff;}
+.wnum{font-size:.58rem;color:var(--pink);font-weight:700;font-family:'Montserrat',sans-serif;}
+.wzone{font-size:.55rem;opacity:.36;margin-right:auto;}
+/* ABOUT */
+#about{padding:4rem 2.5rem;background:var(--pink-pale);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;}
+.aboxes{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;}
+.abox{border-radius:1.1rem;padding:1.2rem;transition:transform .3s;}.abox:hover{transform:scale(1.03);}
+.abox.full{grid-column:span 2;}
+.ab-pk{background:linear-gradient(135deg,var(--pink),#c2185b);color:#fff;}
+.ab-dk{background:var(--black);color:#fff;}
+.ab-wh{background:#fff;color:var(--black);border:1px solid rgba(0,0,0,.06);}
+.abox .abig{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.8rem;display:block;line-height:1;}
+.abox .albl{font-size:.68rem;opacity:.52;margin-top:.18rem;display:block;}
+.abox .aemo{font-size:1.7rem;margin-bottom:.3rem;display:block;}
+.afeats{display:flex;flex-direction:column;gap:.85rem;margin-top:1.4rem;}
+.afeat{display:flex;align-items:center;gap:.85rem;background:#fff;border-radius:.9rem;padding:.85rem 1rem;box-shadow:0 2px 10px rgba(233,30,140,.06);transition:transform .3s;}
+.afeat:hover{transform:translateX(-4px);}
+.afeat-ico{width:36px;height:36px;min-width:36px;border-radius:.65rem;background:var(--pink-pale);display:flex;align-items:center;justify-content:center;font-size:.95rem;}
+.afeat-t strong{display:block;font-size:.82rem;color:var(--black);margin-bottom:.1rem;}
+.afeat-t span{font-size:.73rem;color:var(--muted);}
+/* REVIEWS */
+.revgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;}
+.revcard{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:1.1rem;padding:1.3rem;box-shadow:0 2px 10px rgba(0,0,0,.04);transition:transform .3s;}
+.revcard:hover{transform:translateY(-4px);}
+.revstars{color:#f9a825;font-size:.86rem;margin-bottom:.65rem;}
+.revbody{font-size:.82rem;line-height:1.7;font-style:italic;margin-bottom:.9rem;}
+.revauth{display:flex;align-items:center;gap:.65rem;}
+.revav{width:34px;height:34px;border-radius:50%;background:var(--pink-pale);display:flex;align-items:center;justify-content:center;font-size:.9rem;border:2px solid rgba(233,30,140,.15);}
+.rev-name{font-weight:600;font-size:.78rem;color:var(--black);}
+.rev-date{font-size:.68rem;color:var(--muted);}
+/* CTA */
+#cta{padding:5rem 2.5rem;text-align:center;background:linear-gradient(135deg,var(--pink),#ad1457);position:relative;overflow:hidden;}
+#cta::before{content:'🌹';position:absolute;font-size:15rem;opacity:.04;top:50%;left:50%;transform:translate(-50%,-50%);}
+#cta .stitle{color:#fff;}#cta .stitle em{color:rgba(255,255,255,.7);}
+#cta p{color:rgba(255,255,255,.7);margin:.85rem 0 1.8rem;font-size:.88rem;font-weight:300;}
+.btn-wh{background:#fff;color:var(--pink);padding:.8rem 2.2rem;border:none;border-radius:3rem;font-family:'Tajawal',sans-serif;font-size:.9rem;font-weight:600;cursor:none;transition:all .3s;}
+.btn-wh:hover{transform:translateY(-3px);}
+.socrow{display:flex;justify-content:center;gap:.7rem;flex-wrap:wrap;margin-top:1.1rem;}
+.socbtn{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:2rem;padding:.46rem 1.1rem;text-decoration:none;font-size:.78rem;transition:background .3s;cursor:none;}
+.socbtn:hover{background:rgba(255,255,255,.25);}
+footer{background:var(--black);color:rgba(255,255,255,.38);padding:1.8rem 2.5rem;display:flex;align-items:center;justify-content:space-between;font-size:.75rem;flex-wrap:wrap;gap:.85rem;}
+.f-logo{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.97rem;color:#fff;}
+.f-logo span{color:var(--pink);}
+.f-links{display:flex;gap:1.4rem;}
+.f-links a{color:rgba(255,255,255,.32);text-decoration:none;transition:color .2s;}
+.f-links a:hover{color:var(--pink);}
+/* CART */
+#cov{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:600;display:none;}
+#cov.on{display:block;}
+#cside{position:fixed;top:0;left:0;width:min(370px,95vw);height:100vh;background:#fff;z-index:700;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+#cside.on{transform:translateX(0);}
+.ch{padding:1.2rem 1.4rem;border-bottom:1px solid rgba(0,0,0,.07);display:flex;align-items:center;justify-content:space-between;}
+.ch h3{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.97rem;}
+.cx{background:none;border:none;font-size:1.15rem;cursor:pointer;color:var(--muted);}
+.citems{flex:1;overflow-y:auto;padding:.9rem 1.4rem;}
+.cempty{text-align:center;color:var(--muted);font-size:.86rem;padding:2.5rem 0;}
+.ci{display:flex;align-items:center;gap:.85rem;padding:.75rem 0;border-bottom:1px solid rgba(0,0,0,.05);}
+.ci-img{width:48px;height:48px;border-radius:.65rem;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;overflow:hidden;}
+.ci-img img{width:100%;height:100%;object-fit:cover;}
+.ci-info{flex:1;}
+.ci-name{font-weight:600;font-size:.82rem;color:var(--black);}
+.ci-price{font-size:.76rem;color:var(--pink);font-weight:700;margin-top:.1rem;}
+.ci-qty{display:flex;align-items:center;gap:.4rem;margin-top:.28rem;}
+.qbtn{width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(0,0,0,.12);background:none;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.qbtn:hover{border-color:var(--pink);color:var(--pink);}
+.ci-rm{background:none;border:none;font-size:.8rem;color:var(--muted);cursor:pointer;}
+.cftr{padding:1.2rem 1.4rem;border-top:1px solid rgba(0,0,0,.07);}
+.ctrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:.88rem;}
+.ctlbl{font-weight:600;font-size:.85rem;}
+.ctval{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.1rem;color:var(--pink);}
+.btn-co{width:100%;background:var(--pink);color:#fff;border:none;padding:.8rem;border-radius:3rem;font-family:'Tajawal',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .3s;}
+.btn-co:hover{background:var(--black);}
+#toast{position:fixed;bottom:1.8rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--black);color:#fff;padding:.62rem 1.35rem;border-radius:3rem;font-size:.78rem;z-index:950;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;}
+#toast.on{transform:translateX(-50%) translateY(0);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes lp{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+@media(max-width:860px){
+  nav{padding:.8rem 1rem;}.nav-links{display:none;}
+  #hero{grid-template-columns:1fr;padding:5.2rem .9rem 2.5rem;text-align:center;}
+  .hero-p{max-width:100%;}.hero-btns,.hero-trust{justify-content:center;}
+  .hero-r{margin-top:1.8rem;}.bwrap{width:210px;height:210px;}
+  .fbadge.b1{right:0;}.fbadge.b2{left:0;}
+  .sw,#track,#delivery,#about,#cta{padding:3rem .9rem;}
+  .about-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+<div id="loading"><div class="load-logo">Fleur<span>❀</span>by liza</div><div class="ld"><span></span><span></span><span></span></div></div>
+<div id="cur"></div>
+
+<div id="pop">
+  <div class="pop-box">
+    <button class="pop-x" onclick="closePop()">✕</button>
+    <div class="pop-img">🌹</div>
+    <div class="pop-body">
+      <div class="pop-tag">✦ عرض خاص ✦</div>
+      <div class="pop-title" id="popTitle">خصم خاص بك!</div>
+      <div class="pop-desc" id="popDesc">استخدمي هذا الكود عند الطلب</div>
+      <div class="pop-code" id="popCode" onclick="copyCode()">WELCOME</div>
+      <div class="pop-btns">
+        <button class="btn-pink" onclick="closePop();goSec('products')">اكتشفي الباقات 🌹</button>
+        <button class="btn-ol" onclick="closePop()">لاحقاً</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="pbar"></div>
+
+<nav>
+  <a class="logo-a" href="index.html">
+    <div class="logo-m">Fleur<span>❀</span>by liza</div>
+    <div class="logo-s">Flower Shop</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#products">Bouquets</a></li>
+    <li><a href="#delivery">Livraison</a></li>
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#reviews">Avis</a></li>
+  </ul>
+  <div class="nav-r">
+    <a class="nav-ig" href="https://www.instagram.com/fleurs_byliza?igsh=ZjkxOXcxcGYyMWl0" target="_blank">📸 fleurs_byliza</a>
+    <button class="btn-trk" onclick="goSec('track')">🔍 تتبع طلبي</button>
+    <button class="btn-cart" onclick="openCart()">🛒 <span class="cbadge" id="ccount">0</span></button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div>
+    <div class="hero-tag">Fraîcheur &amp; Élégance</div>
+    <h1 class="hero-h1">Fleur<em>❀</em><br>by liza</h1>
+    <p class="hero-it">باقات الورد الفاخرة لكل مناسبة</p>
+    <p class="hero-p">ورود طازجة مستوردة، تغليف أنيق، وتوصيل Anderson Express لكل الجزائر.</p>
+    <div class="hero-btns">
+      <button class="btn-pink" onclick="goSec('products')">🌹 اكتشفي الباقات</button>
+      <button class="btn-ol" onclick="goSec('delivery')">🚚 مناطق التوصيل</button>
+    </div>
+    <div class="hero-trust">
+      <div><div class="trust-n" id="igCount">118<span>K</span></div><div class="trust-l">Instagram</div></div>
+      <div><div class="trust-n" id="fbCount">44<span>K</span></div><div class="trust-l">Facebook</div></div>
+      <div><div class="trust-n" id="ordersCount">+<span>5K</span></div><div class="trust-l">طلب ناجح</div></div>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="bwrap">
+      <div class="bcircle">🌹</div>
+      <div class="ring1"></div><div class="ring2"></div>
+      <div class="fbadge b1"><span>🚚</span><div><span>Anderson Express</span><small>58 ولاية</small></div></div>
+      <div class="fbadge b2"><span>⭐</span><div><span>4.9 / 5</span><small>تقييم العملاء</small></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="mq-wrap"><div class="mq">
+  <span class="p">✦</span><span>Fleurs by Liza</span><span class="p">✦</span><span>ورد مستورد طازج</span>
+  <span class="p">✦</span><span>Anderson Express</span><span class="p">✦</span><span>SlickPay — CIB / Edahabia</span>
+  <span class="p">✦</span><span>Supabase Cloud</span><span class="p">✦</span><span>باقات فاخرة</span>
+  <span class="p">✦</span><span>Fleurs by Liza</span><span class="p">✦</span><span>ورد مستورد طازج</span>
+  <span class="p">✦</span><span>Anderson Express</span><span class="p">✦</span><span>SlickPay — CIB / Edahabia</span>
+  <span class="p">✦</span><span>Supabase Cloud</span><span class="p">✦</span><span>باقات فاخرة</span>
+</div></div>
+
+<section class="sw" id="products">
+  <div class="sh reveal">
+    <div class="stag">✦ nos bouquets ✦</div>
+    <h2 class="stitle">باقات <em>مختارة بعناية</em></h2>
+    <div class="sdiv"><span style="color:var(--pink)">🌹</span></div>
+  </div>
+  <div class="pgrid" id="prodGrid">
+    <div style="height:280px;border-radius:1.3rem;" class="skel"></div>
+    <div style="height:280px;border-radius:1.3rem;" class="skel"></div>
+    <div style="height:280px;border-radius:1.3rem;" class="skel"></div>
+  </div>
+</section>
+
+<section id="track">
+  <div class="track-box reveal">
+    <div class="stag">✦ تتبع طلبك ✦</div>
+    <h2 class="stitle" style="text-align:center">أين <em>طلبي؟</em></h2>
+    <div class="track-row">
+      <input class="track-inp" id="trackQ" type="text" placeholder="رقم الهاتف أو رقم الطلب...">
+      <button class="track-btn" onclick="trackOrder()">🔍 بحث</button>
+    </div>
+    <div id="track-res"></div>
+  </div>
+</section>
+
+<section id="delivery">
+  <div class="sh reveal" style="position:relative;z-index:1;">
+    <div class="stag" style="color:rgba(255,255,255,.5)">✦ livraison ✦</div>
+    <h2 class="stitle" style="color:#fff">نوصّلوا <em style="color:var(--pink-l)">لكل الجزائر</em></h2>
+    <div class="sdiv"><span style="color:var(--pink)">🚚</span></div>
+  </div>
+  <div class="dcards reveal" id="delCards">
+    <div class="dcard"><span class="dcard-ico">🏙️</span><div class="dcard-title">الشمال — منزل</div><div class="dcard-desc">الجزائر، وهران، قسنطينة...</div><span class="dcard-price">400 دج</span></div>
+    <div class="dcard"><span class="dcard-ico">📮</span><div class="dcard-title">الشمال — مكتب</div><div class="dcard-desc">أقرب نقطة Anderson</div><span class="dcard-price">300 دج</span></div>
+    <div class="dcard"><span class="dcard-ico">🏘️</span><div class="dcard-title">الوسط — منزل</div><div class="dcard-desc">المسيلة، البويرة، المدية...</div><span class="dcard-price">600 دج</span></div>
+    <div class="dcard"><span class="dcard-ico">📮</span><div class="dcard-title">الوسط — مكتب</div><div class="dcard-desc">أقرب نقطة Anderson</div><span class="dcard-price">450 دج</span></div>
+    <div class="dcard"><span class="dcard-ico">🏜️</span><div class="dcard-title">الجنوب — منزل</div><div class="dcard-desc">غرداية، ورقلة، تمنراست...</div><span class="dcard-price">900 دج</span></div>
+    <div class="dcard"><span class="dcard-ico">📮</span><div class="dcard-title">الجنوب — مكتب</div><div class="dcard-desc">أقرب نقطة Anderson</div><span class="dcard-price">700 دج</span></div>
+  </div>
+  <div class="wbox reveal">
+    <div class="w-title">— 58 ولاية — Anderson Express —</div>
+    <div class="w-sr"><input class="w-si" type="text" placeholder="🔍 ابحثي عن ولايتك..." oninput="filterW(this.value)"></div>
+    <div class="wgrid" id="wGrid"></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div class="aboxes reveal">
+      <div class="abox full ab-pk"><span class="aemo">🌹</span><span class="abig">Fleur by Liza</span><span class="albl">FLOWER SHOP — الجزائر</span></div>
+      <div class="abox ab-dk"><span class="abig" id="igCountAbout">118K</span><span class="albl">Instagram</span></div>
+      <div class="abox ab-wh"><span class="abig" style="color:var(--pink)" id="totalStat">5K+</span><span class="albl">طلب موصّل</span></div>
+    </div>
+    <div class="reveal">
+      <div class="stag" style="display:block">✦ notre histoire ✦</div>
+      <h2 class="stitle">قصة <em>Fleur by Liza</em></h2>
+      <p style="font-size:.86rem;color:var(--muted);line-height:1.9;margin-top:1rem;font-weight:300;">منذ البداية كان الهدف واحد: إيصال الورود الأجمل إلى أيدي أحبائكم.</p>
+      <div class="afeats">
+        <div class="afeat"><div class="afeat-ico">🌿</div><div class="afeat-t"><strong>ورد مستورد 100%</strong><span>جودة لا تضاهى — طازج يومياً</span></div></div>
+        <div class="afeat"><div class="afeat-ico">🎁</div><div class="afeat-t"><strong>تغليف فاخر مجاني</strong><span>بطاقة هدية + تغليف سيلوفان أنيق</span></div></div>
+        <div class="afeat"><div class="afeat-ico">🚚</div><div class="afeat-t"><strong>Anderson Express</strong><span>توصيل سريع لكل الجزائر</span></div></div>
+        <div class="afeat"><div class="afeat-ico">💳</div><div class="afeat-t"><strong>دفع آمن — SlickPay</strong><span>CIB / Edahabia / CCP / دفع عند الاستلام</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sw" id="reviews">
+  <div class="sh reveal">
+    <div class="stag">✦ avis clients ✦</div>
+    <h2 class="stitle">كلمات <em>عملائنا</em></h2>
+    <div class="sdiv"><span style="color:var(--pink)">💬</span></div>
+  </div>
+  <div class="revgrid" id="revGrid"></div>
+</section>
+
+<section id="cta">
+  <div class="reveal" style="position:relative;z-index:1;">
+    <h2 class="stitle">اطلبي باقتك <em>الآن</em></h2>
+    <p>ورود طازجة — تغليف فاخر — Anderson Express — دفع آمن 🌹</p>
+    <button class="btn-wh" onclick="goSec('products')">🌹 اطلبي الآن</button>
+    <div class="socrow">
+      <a href="https://www.instagram.com/fleurs_byliza?igsh=ZjkxOXcxcGYyMWl0" class="socbtn" target="_blank">📸 fleurs_byliza</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">Fleur<span>❀</span>by liza</div>
+  <div class="f-links">
+    <a href="#">سياسة الخصوصية</a>
+    <a href="admin.html">🔐 Admin</a>
+  </div>
+  <div>© 2025 Fleurs by Liza</div>
+</footer>
+
+<div id="cov" onclick="closeCart()"></div>
+<div id="cside">
+  <div class="ch"><h3>🛒 السلة</h3><button class="cx" onclick="closeCart()">✕</button></div>
+  <div class="citems" id="citems"></div>
+  <div class="cftr">
+    <div class="ctrow"><span class="ctlbl">المجموع</span><span class="ctval" id="ctval">0 دج</span></div>
+    <button class="btn-co" onclick="checkoutCart()">إتمام الطلب 🌹</button>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+const SB='https://vlgoldztzcflwhgyyxpl.supabase.co';
+const SK='sb_publishable_l9EJ9f8s6MujxjlKs2zhGw_uMJ-qucO';
+const SH={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
+
+async function sbGet(t,q=''){
+  try{const r=await fetch(`${SB}/rest/v1/${t}${q}`,{headers:SH});if(!r.ok)throw new Error();return r.json();}
+  catch{return [];}
+}
+async function getSetting(k){
+  try{const r=await sbGet('settings',`?key=eq.${k}&select=value`);return r[0]?.value??null;}catch{return null;}
+}
+
+const WILAYAS_DATA=[];// loaded from DB
+
+const cur=document.getElementById('cur');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
+document.querySelectorAll('a,button,input').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*65);ro.unobserve(e.target);}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(r=>ro.observe(r));
+
+function goSec(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+function closePop(){document.getElementById('pop').classList.remove('on');}
+function copyCode(){const c=document.getElementById('popCode').textContent;navigator.clipboard.writeText(c).catch(()=>{});showToast('✅ تم نسخ الكود: '+c);}
+
+function renderProds(prods){
+  const list=(prods||[]).filter(p=>p.active);
+  if(!list.length){document.getElementById('prodGrid').innerHTML='<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:3rem">لا توجد منتجات بعد</p>';return;}
+  document.getElementById('prodGrid').innerHTML=list.map(p=>{
+    const imgSrc=p.media_items?.find(m=>m.type==='image')?.src||p.real_images?.[0];
+    return `<div class="pcard reveal" onclick="window.location.href='product.html?id=${p.id}'">
+      <div class="pcard-img" style="background:${imgSrc?'#f8f8f8':p.bg}">
+        ${imgSrc?`<img src="${imgSrc}" alt="${p.name}">`:`<span class="emoji-fb">${p.emoji}</span>`}
+        ${p.badge?`<span class="pbadge pb-${p.badge_type}">${p.badge}</span>`:''}
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">${p.name}</div>
+        <div class="pcard-desc">${(p.description||'').substring(0,60)}...</div>
+        <div class="cdots">${(p.colors||[]).map(c=>`<div class="cdot" style="background:${c}"></div>`).join('')}</div>
+        <div class="pcard-foot">
+          <div class="pcard-price">${p.price.toLocaleString()} دج ${p.old_price?`<del>${p.old_price.toLocaleString()}</del>`:''}</div>
+          <button class="view-btn" onclick="event.stopPropagation();window.location.href='product.html?id=${p.id}'">التفاصيل</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('.pcard.reveal:not(.vis)').forEach(r=>ro.observe(r));
+}
+
+function renderRevs(reviews){
+  document.getElementById('revGrid').innerHTML=(reviews||[]).map(r=>`
+    <div class="revcard reveal">
+      <div class="revstars">${'★'.repeat(r.stars)}</div>
+      <p class="revbody">"${r.text}"</p>
+      <div class="revauth"><div class="revav">👩</div><div><div class="rev-name">${r.name}</div><div class="rev-date">${r.date}</div></div></div>
+    </div>`).join('');
+  document.querySelectorAll('.revcard.reveal:not(.vis)').forEach(r=>ro.observe(r));
+}
+
+function renderW(list){
+  document.getElementById('wGrid').innerHTML=(list||[]).map(w=>`
+    <div class="wpill">
+      <span class="wnum">${String(w.wilaya_id).padStart(2,'0')}</span>${w.wilaya_name}
+      <span class="wzone">${{north:'الشمال',center:'الوسط',south:'الجنوب'}[w.zone]||w.zone}</span>
+    </div>`).join('');
+}
+function filterW(q){renderW(WILAYAS_DATA.filter(w=>w.wilaya_name.includes(q)||String(w.wilaya_id).includes(q)));}
+
+async function trackOrder(){
+  const q=document.getElementById('trackQ').value.trim();
+  if(!q){showToast('⚠️ أدخلي رقم الهاتف أو رقم الطلب');return;}
+  const res=document.getElementById('track-res');
+  res.style.display='block';
+  res.innerHTML='<div style="text-align:center;padding:1rem;color:var(--muted)">⏳ جاري البحث...</div>';
+  try{
+    const byPhone=await sbGet('orders',`?phone=eq.${encodeURIComponent(q)}&order=created_at.desc&limit=1`);
+    const byId=q.startsWith('FBL')?await sbGet('orders',`?id=eq.${encodeURIComponent(q)}&limit=1`):[];
+    const orders=[...byPhone,...byId];
+    if(orders.length){
+      const o=orders[0];
+      const STATUS_MAP={new:'جديد',confirmed:'تم التأكيد',shipping:'في الطريق',delivered:'موصّل',cancelled:'ملغي'};
+      const statusSteps=['new','confirmed','shipping','delivered'];
+      const idx=Math.max(0,statusSteps.indexOf(o.status));
+      const statusLabels=['جديد','تم التأكيد','في الطريق','موصّل'];
+      res.innerHTML=`<div class="tcard">
+        <div style="display:flex;justify-content:space-between;margin-bottom:.7rem">
+          <strong style="color:var(--pink)">#${o.id}</strong>
+          <span style="font-size:.73rem;color:var(--muted)">${o.date||''}</span>
+        </div>
+        <div style="font-size:.83rem;margin-bottom:.25rem">📦 ${o.product_emoji||'🌹'} ${o.product}</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:.8rem">📍 ${o.wilaya} — ${o.commune||''}</div>
+        <div class="tsteps">
+          ${statusSteps.map((s,i)=>`
+            <div class="tstep">
+              <div class="ts-dot ${i<idx?'done':i===idx?'active':''}">${i<idx?'✓':i+1}</div>
+              <div class="ts-lbl">${statusLabels[i]}</div>
+            </div>`).join('')}
+        </div>
+        ${o.tracking?`<a href="https://anderson-ecommerce.ecotrack.dz/track/${o.tracking}" target="_blank" style="display:inline-flex;align-items:center;gap:.4rem;background:var(--black);color:#fff;text-decoration:none;padding:.55rem 1.2rem;border-radius:2rem;font-size:.78rem;margin-top:1rem;transition:background .2s;">📦 تتبع عند Anderson</a>`:''}
+      </div>`;
+    }else{
+      res.innerHTML='<div style="text-align:center;color:var(--muted);padding:1.5rem;background:#fff;border-radius:1rem">لم يتم العثور على طلب 😔</div>';
+    }
+  }catch{
+    res.innerHTML='<div style="text-align:center;color:var(--muted);padding:1.5rem;background:#fff;border-radius:1rem">⚠️ خطأ في الاتصال</div>';
+  }
+}
+
+let cart=[];
+function openCart(){renderCart();document.getElementById('cside').classList.add('on');document.getElementById('cov').classList.add('on');}
+function closeCart(){document.getElementById('cside').classList.remove('on');document.getElementById('cov').classList.remove('on');}
+function renderCart(){
+  const el=document.getElementById('citems');
+  if(!cart.length){el.innerHTML='<div class="cempty">🌹 السلة فارغة</div>';document.getElementById('ctval').textContent='0 دج';return;}
+  el.innerHTML=cart.map(c=>{
+    const imgSrc=c.media_items?.find(m=>m.type==='image')?.src||c.real_images?.[0];
+    return `<div class="ci">
+      <div class="ci-img">${imgSrc?`<img src="${imgSrc}" alt="">`:`${c.emoji}`}</div>
+      <div class="ci-info">
+        <div class="ci-name">${c.name}</div>
+        <div class="ci-price">${c.price.toLocaleString()} دج</div>
+        <div class="ci-qty">
+          <button class="qbtn" onclick="chQty('${c.id}',-1)">−</button>
+          <span>${c.qty}</span>
+          <button class="qbtn" onclick="chQty('${c.id}',1)">+</button>
+        </div>
+      </div>
+      <button class="ci-rm" onclick="rmCart('${c.id}')">🗑️</button>
+    </div>`;
+  }).join('');
+  document.getElementById('ctval').textContent=cart.reduce((s,c)=>s+c.price*c.qty,0).toLocaleString()+' دج';
+}
+function chQty(id,d){const i=cart.find(c=>c.id===id);if(!i)return;i.qty+=d;if(i.qty<=0)cart=cart.filter(c=>c.id!==id);renderCart();updBadge();}
+function rmCart(id){cart=cart.filter(c=>c.id!==id);renderCart();updBadge();}
+function updBadge(){document.getElementById('ccount').textContent=cart.reduce((s,c)=>s+c.qty,0);}
+function checkoutCart(){if(!cart.length)return;closeCart();window.location.href='product.html?id='+cart[0].id;}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500);}
+
+async function init(){
+  try{
+    const [prodsRaw,promosSetting,reviewsSetting,wilayasRaw,ordersCount,socialStats]=await Promise.all([
+      sbGet('products','?order=sort_order.asc,created_at.asc&active=eq.true'),
+      getSetting('promos'),
+      getSetting('reviews'),
+      sbGet('delivery_prices','?order=wilaya_id.asc'),
+      sbGet('orders','?select=id&status=eq.delivered'),
+      getSetting('social_stats')
+    ]);
+
+    renderProds(prodsRaw);
+    renderRevs(reviewsSetting||[]);
+
+    // Wilayas
+    if(wilayasRaw.length){
+      WILAYAS_DATA.push(...wilayasRaw);
+      renderW(wilayasRaw);
+    }
+
+    // عدد الطلبات
+    const cnt=Array.isArray(ordersCount)?ordersCount.length:0;
+    if(cnt>0)document.getElementById('totalStat').innerHTML=cnt>1000?Math.floor(cnt/1000)+'K+':cnt+'+';
+
+    // أرقام السوشيال ميديا من Supabase
+    const stats=socialStats||{instagram:118482,facebook:44601,orders_delivered:0};
+    function fmtNum(n){
+      n=parseInt(n)||0;
+      if(n>=1000000)return (n/1000000).toFixed(1).replace('.0','')+'M';
+      if(n>=1000)return (n/1000).toFixed(n>=10000?0:1).replace('.0','')+'K';
+      return n.toLocaleString();
+    }
+    const igEl=document.getElementById('igCount');
+    const fbEl=document.getElementById('fbCount');
+    const igAbout=document.getElementById('igCountAbout');
+    if(igEl)igEl.innerHTML=fmtNum(stats.instagram)+'<span></span>';
+    if(fbEl)fbEl.innerHTML=fmtNum(stats.facebook)+'<span></span>';
+    if(igAbout)igAbout.textContent=fmtNum(stats.instagram);
+
+    // Promos
+    const promos=promosSetting||[];
+    const active=promos.filter(p=>p.active);
+    if(active.length){
+      const b=document.getElementById('pbar');
+      b.innerHTML='🎁 عرض خاص! <strong>'+active[0].code+'</strong> — '+active[0].desc;
+      b.classList.add('on');
+      if(!sessionStorage.getItem('ps')){
+        document.getElementById('popCode').textContent=active[0].code;
+        document.getElementById('popDesc').textContent='استخدمي كود '+active[0].code+' — '+active[0].desc+' 🌹';
+        setTimeout(()=>document.getElementById('pop').classList.add('on'),2500);
+        sessionStorage.setItem('ps','1');
+      }
+    }
+
+    // Cache للـ product page
+    sessionStorage.setItem('fl_prods',JSON.stringify(prodsRaw));
+    sessionStorage.setItem('fl_wilayas',JSON.stringify(wilayasRaw));
+    sessionStorage.setItem('fl_promos',JSON.stringify(promos));
+
+    const paymentSetting=await getSetting('payment_info');
+    if(paymentSetting)sessionStorage.setItem('fl_payment',JSON.stringify(paymentSetting));
+
+  }catch(e){
+    console.error(e);
+    showToast('⚠️ خطأ في تحميل البيانات');
+  }finally{
+    setTimeout(()=>document.getElementById('loading').classList.add('hide'),400);
+  }
+}
+init();
+</script>
+</body>
+</html>
